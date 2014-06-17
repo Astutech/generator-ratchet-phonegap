@@ -5,6 +5,16 @@ module.exports = function (grunt) {
         clean: [
             'www'
         ],
+        sass: {
+            dist: {
+                options: {
+                    style: 'expanded'
+                },
+                files: {
+                    "app/css/index.css": "app/css/index.scss"
+                }
+            }
+        },
         copy: {
             app: {
                 expand: true,
@@ -127,6 +137,6 @@ module.exports = function (grunt) {
 
     // Register tasks
     grunt.registerTask('test', ['jshint', 'jasmine']);
-    grunt.registerTask('default', ['test', 'clean', 'copy']);
+    grunt.registerTask('default', ['test', 'clean', 'sass', 'copy']);
     grunt.registerTask('server', ['connect', 'watch']);
 };

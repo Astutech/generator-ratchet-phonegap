@@ -51,6 +51,10 @@ var RatchetPhonegapGenerator = yeoman.generators.Base.extend({
     this.copy('editorconfig', '.editorconfig');
     this.copy('jshintrc', '.jshintrc');
     this.copy('_gitignore', '.gitignore');
+  },
+
+  www: function () {
+    this.mkdir('www');
   }
 });
 

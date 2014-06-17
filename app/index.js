@@ -17,6 +17,7 @@ var RatchetPhonegapGenerator = yeoman.generators.Base.extend({
     });
   },
 
+  /*
   askFor: function () {
     var done = this.async();
 
@@ -36,6 +37,7 @@ var RatchetPhonegapGenerator = yeoman.generators.Base.extend({
       done();
     }.bind(this));
   },
+  */
 
   app: function () {
     this.mkdir('app');
@@ -52,6 +54,10 @@ var RatchetPhonegapGenerator = yeoman.generators.Base.extend({
     this.copy('editorconfig', '.editorconfig');
     this.copy('jshintrc', '.jshintrc');
     this.copy('_gitignore', '.gitignore');
+  },
+
+  tests: function () {
+    this.mkdir('tests');
   },
 
   www: function () {

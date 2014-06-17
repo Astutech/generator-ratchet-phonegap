@@ -39,13 +39,12 @@ var RatchetPhonegapGenerator = yeoman.generators.Base.extend({
 
   app: function () {
     this.mkdir('app');
-    this.mkdir('app/templates');
 
     this.copy('_package.json', 'package.json');
     this.copy('_bower.json', 'bower.json');
     this.copy('_Gruntfile.js', 'Gruntfile.js');
     this.copy('_config.xml', 'config.xml');
-    this.copy('_index.html', 'index.html');
+    this.copy('_index.html', 'app/index.html');
   },
 
   projectfiles: function () {

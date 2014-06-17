@@ -5,7 +5,10 @@
   "description": "Yeoman generator for creating Phonegap apps using Ratchet and Backbone.js",
   "license": "MIT",
   "main": "app/index.js",
-  "repository": "Astutech/generator-ratchet-phonegap",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:Astutech/generator-ratchet-phonegap.git"
+  }
   "author": {
     "name": "Astutech",
     "email": "matthew@astutech.com",

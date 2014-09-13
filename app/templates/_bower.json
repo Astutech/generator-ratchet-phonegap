@@ -2,9 +2,9 @@
   "name": "myapp",
   "version": "0.0.1",
   "authors": [
-    "Matthew Daly <matthew@astutech.com>"
+    "User <user@example.com>"
   ],
-  "description": "A Phonegap app",
+  "description": "My brand new mobile app",
   "main": "app/js/index/js",
   "moduleType": [
     "globals"
@@ -25,9 +25,11 @@
     "backbone": "~1.1.2",
     "jquery": "~2.1.1",
     "underscore": "~1.6.0",
-    "ratchet": "~2.0.2"
+    "ratchet": "~2.0.2",
+    "backbone-faux-server": "~0.10.3"
   },
   "resolutions": {
-    "backbone": "~1.1.2"
+    "backbone": "~1.1.2",
+    "underscore": "~1.6.0"
   }
 }

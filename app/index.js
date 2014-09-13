@@ -41,14 +41,20 @@ var RatchetPhonegapGenerator = yeoman.generators.Base.extend({
 
   app: function () {
     this.mkdir('app');
+    this.mkdir('app/js');
+    this.mkdir('app/css');
     this.mkdir('hooks');
 
     this.copy('_package.json', 'package.json');
     this.copy('_bower.json', 'bower.json');
     this.copy('_bowerrc', '.bowerrc');
     this.copy('_Gruntfile.js', 'Gruntfile.js');
-    this.copy('_config.xml', 'config.xml');
+    this.copy('_config.xml', 'app/baseconfig.xml');
     this.copy('_index.html', 'app/index.html');
+    this.copy('_main.js', 'app/js/main.js');
+    this.copy('_index.scss', 'app/css/index.scss');
+    this.copy('_phonegap.js', 'app/phonegap.js');
+    this.copy('_debugdata.json', 'app/debugdata.json');
   },
 
   projectfiles: function () {
@@ -59,6 +65,12 @@ var RatchetPhonegapGenerator = yeoman.generators.Base.extend({
 
   tests: function () {
     this.mkdir('tests');
+    this.copy('_basetest.js', 'tests/test.js');
+  },
+
+  templates: function () {
+    this.mkdir('templates');
+    this.copy('_basetemplate.html', 'templates/base.html');
   },
 
   www: function () {

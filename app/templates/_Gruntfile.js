@@ -1,7 +1,28 @@
+/* jshint strict: true */
 module.exports = function (grunt) {
     'use strict';
 
     grunt.initConfig({
+        jst: {
+            compile: {
+                files: {
+                    "app/templates.js": ["templates/*.html"]
+                }
+            }
+        },
+        bower_concat: {
+            all: {
+                dest: 'app/dependencies.js',
+                dependencies: {
+                    'ratchet': 'jquery',
+                    'underscore': 'jquery',
+                    'backbone': 'underscore'
+                },
+                bowerOptions: {
+                    relative: false
+                }
+            }
+        },
         clean: [
             'www'
         ],
@@ -15,15 +36,32 @@ module.exports = function (grunt) {
                 }
             }
         },
+        cssmin: {
+            combine: {
+                files: {
+                    'app/css/style.css': [
+                        'app/bower_components/ratchet/dist/css/ratchet.min.css',
+                        'app/css/index.css'
+                    ]
+                }
+            }
+        },
         copy: {
             app: {
                 expand: true,
                 cwd: 'app/',
-                src: ['**', '!**/bower_components/**/*.html'],
+                src: [
+                    '**',
+                    '!**/css/*.scss',
+                    '!**/bower_components/**/*.html',
+                    '!phonegap.js',
+                    '!debugdata.json',
+                    '!base_config.xml'
+                ],
                 dest: 'www/'
             },
             config: {
-                src: 'config.xml',
+                src: 'app/base_config.xml',
                 dest: 'www/config.xml'
             }
         },
@@ -49,21 +87,25 @@ module.exports = function (grunt) {
                 }
             }
         },
+        uglify: {
+            dist: {
+                src: [
+                    'app/dependencies.js'
+                ],
+                dest: 'app/dependencies.min.js'
+            }
+        },
         jasmine: {
             coverage: {
                 src: [
-                    'app/js/backbone-tastypie-fallback.js',
-                    'app/js/config.js',
-                    'app/js/models.js',
-                    'app/js/collections.js',
-                    'app/js/views.js',
-                    'app/js/router.js'
+                    'app/js/*.js'
                 ],
                 options: {
+                    keepRunner: true,
                     vendor: [
-                        'app/bower_components/jquery/dist/jquery.js',
-                        'app/bower_components/underscore/underscore.js',
-                        'app/bower_components/backbone/backbone.js'
+                        'app/dependencies.js',
+                        'app/bower_components/backbone-faux-server/backbone-faux-server.js',
+                        'app/templates.js'
                     ],
                     specs: [
                         'tests/*.js'
@@ -84,7 +126,13 @@ module.exports = function (grunt) {
                                     dir: 'coverage'
                                 }
                             }
-                        ]
+                        ],
+                        thresholds: {
+                            lines: 75,
+                            statements: 75,
+                            branches: 75,
+                            functions: 90 
+                        }
                     },
                     junit: {
                         path: 'report',
@@ -96,10 +144,11 @@ module.exports = function (grunt) {
         watch: {
             scripts: {
                 files: [
-                    'app/css/index.css',
+                    'app/css/index.scss',
                     'app/index.html',
                     'app/js/*.js',
-                    'tests/*.js'
+                    'tests/*.js',
+                    'templates/*.html'
                 ],
                 tasks: ['default'],
                 options: {
@@ -124,6 +173,15 @@ module.exports = function (grunt) {
                 base: 'app',
                 livereload: true
             }
+        },
+        plato: {
+            app: {
+                files: {
+                    'reports': [
+                        'app/js/*.js'
+                    ]
+                }
+            }
         }
     });
 
@@ -134,9 +192,15 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-connect');
     grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-contrib-clean');
+    grunt.loadNpmTasks('grunt-contrib-sass');
+    grunt.loadNpmTasks('grunt-contrib-jst');
+    grunt.loadNpmTasks('grunt-bower-concat');
+    grunt.loadNpmTasks('grunt-contrib-cssmin');
+    grunt.loadNpmTasks('grunt-contrib-uglify');
+    grunt.loadNpmTasks('grunt-plato');
 
     // Register tasks
-    grunt.registerTask('test', ['jshint', 'jasmine']);
-    grunt.registerTask('default', ['test', 'clean', 'sass', 'copy']);
-    grunt.registerTask('server', ['connect', 'watch']);
+    grunt.registerTask('test', ['jst', 'jshint', 'jasmine', 'plato']);
+    grunt.registerTask('default', ['bower_concat', 'cssmin', 'uglify', 'test', 'clean', 'sass', 'copy']);
+    grunt.registerTask('server', ['default', 'connect', 'watch']);
 };
